@@ -17,8 +17,10 @@ function init() {
     // create a scene and a camera
     scene = new THREE.Scene()
     scene.background = new THREE.Color(1,1,1)
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 )
-    camera.position.y = - 100
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 100, 10000 )
+    camera.position.y = - 1300
+    camera.position.z = 600
+    camera.position.x = 400
 
     // create the renderer and add it to the html
     renderer = new THREE.WebGLRenderer( { antialias: true } )
@@ -28,9 +30,9 @@ function init() {
     const controls = new OrbitControls( camera, renderer.domElement )
 
     const directionalLight = new THREE.DirectionalLight( 0xffffff )
-    directionalLight.position.set( 0, 0, 2 )
+    directionalLight.position.set( 0, 20, 50 )
     directionalLight.castShadow = true
-    directionalLight.intensity = 2
+    directionalLight.intensity = 1.2
     scene.add( directionalLight )
 
     raycaster = new THREE.Raycaster()
@@ -38,7 +40,7 @@ function init() {
     const loader = new Rhino3dmLoader()
     loader.setLibraryPath( 'https://cdn.jsdelivr.net/npm/rhino3dm@0.13.0/' )
 
-    loader.load( 'sphere.3dm', function ( object ) {
+    loader.load( 'objects-test.3dm', function ( object ) {
 
         document.getElementById('loader').remove()
         scene.add( object )
@@ -79,7 +81,7 @@ function onClick( event ) {
         const object = intersects[0].object
         console.log(object) // debug
 
-        object.material.color.set( 'yellow' )
+        object.material.color.set( 'pink' )
 
         // get user strings
         let data, count
