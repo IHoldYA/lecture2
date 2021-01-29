@@ -3,7 +3,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.m
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/controls/OrbitControls.js'
 import { Rhino3dmLoader } from 'https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js'
 
-let camera, scene, raycaster, renderer
+let camera, scene, raycaster, renderer, selectedMaterial
 const mouse = new THREE.Vector2()
 window.addEventListener( 'click', onClick, false);
 
@@ -35,6 +35,8 @@ function init() {
     directionalLight.intensity = 1.2
     scene.add( directionalLight )
 
+    selectedMaterial = new THREE.MeshNormalMaterial()
+
     raycaster = new THREE.Raycaster()
 
     const loader = new Rhino3dmLoader()
@@ -43,6 +45,23 @@ function init() {
     loader.load( 'objects-test.3dm', function ( object ) {
 
         document.getElementById('loader').remove()
+        
+        object.traverse( (child) => {
+            if (child.userData.hasOwnProperty('objectType')) {
+                if (child.userData.objectType === 'Brep') {
+                    child.traverse( (c) => {
+                        if (c === child) return
+                        c.userData.material = c.material
+                        console.log(c.userData)
+                    })
+                } else {
+                    child.userData.material = child.material
+                    console.log(child.userData)
+                }
+            }
+        })
+        
+        
         scene.add( object )
         console.log( object )
 
@@ -70,8 +89,8 @@ function onClick( event ) {
 
     // reset object colours
     scene.traverse((child, i) => {
-        if (child.isMesh) {
-            child.material.color.set( 'white' )
+        if (child.userData.hasOwnProperty( 'material' )) {
+            child.material = child.userData.material
         }
     });
 
@@ -80,8 +99,22 @@ function onClick( event ) {
         // get closest object
         const object = intersects[0].object
         console.log(object) // debug
-
-        object.material.color.set( 'pink' )
+        
+        object.traverse( (child) => {
+            if (child.parent.userData.objectType === 'Brep') {
+                child.parent.traverse( (c) => {
+                    if (c.userData.hasOwnProperty( 'material' )) {
+                        c.material = selectedMaterial
+                    }
+                })
+            } else {
+                if (child.userData.hasOwnProperty( 'material' )) {
+                    child.material = selectedMaterial
+                }
+            }
+        })
+        
+        // object.material.color.set( 'pink' )
 
         // get user strings
         let data, count

@@ -1,53 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+        <link rel="stylesheet" href="styles.css">
 		<title>Modular wood pavillion by Aleksander Mastalski</title>
-		<style>
+		<!-- <style>
 			body { margin: 0; }
-
-			/* CSS for a spinning animation */ 
-			#loader {
-                border: 5px solid #ffffff; /* Light grey */
-                border-top: 5px solid #3d3d3d; /* Grey */
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                animation: spin 1s linear infinite;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-            }
-
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-
-            /* style user strings pop-up */
-            #container {
-                position: absolute;
-                z-index: 100;
-                top: 0;
-                margin: 10px;
-                padding: 10px;
-                background-color: black;
-                color: white;
-                width: 250px;
-                font-family: monospace;
-            }
-
-            table { border: none; border-collapse: collapse; }
-            table td {
-                border-left: 1px solid white;
-                padding: 10px;
-            }
-            table td:first-child { border-left: none; }
-
-		</style>
+		</style> -->
 	</head>
 	<body>
-		<div id="loader"></div>
+        <div id="loader"><div></div><div></div><div></div><div></div></div>
         <script type="module" src="./script.js"></script>
 	</body>
 </html>
